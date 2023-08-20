@@ -79,10 +79,96 @@
 // }
 
 //making the font color to green
-var d2=document.querySelectorAll('.list-group-item');
-d2[1].style.color='green'
+
+
+// var d2=document.querySelectorAll('.list-group-item');
+// d2[1].style.color='green'
 //making the odd background color to green
-var make = document.querySelectorAll('li:nth-child(odd)');
-for(var i=0;i<make.length;i++){
-    make[i].style.backgroundColor='green';
-}
+// var make = document.querySelectorAll('li:nth-child(odd)');
+// for(var i=0;i<make.length;i++){
+//     make[i].style.backgroundColor='green';
+// }
+
+//Traversing The DOM
+var itemList=document.querySelector('#items');
+//parentNode
+// itemList.parentNode.style.backgroundColor='#f4f4f4';
+// console.log(itemList.parentNode);
+// console.log(itemList.parentNode.parentNode);
+
+//parentElement
+// itemList.parentElement.style.backgroundColor='#f4f4f4';
+// console.log(itemList.parentElement);
+// console.log(itemList.parentElement.parentElement);
+
+//childNodes
+//console.log(itemList.childNodes);
+
+// console.log(itemList.children);
+// console.log(itemList.children[1]);
+// itemList.children[1].style.backgroundColor='red';
+
+//firstChild
+// console.log(itemList.firstChild);
+//firstElementChild
+// console.log(itemList.firstElementChild);
+// itemList.firstElementChild.textContent='Cart 1';
+
+//LASTCHILD
+// console.log(itemList.lastChild);
+//LASTELEMENTCHILD
+// console.log(itemList.lastElementChild);
+// itemList.lastElementChild.textContent='Cart 4';
+
+//NEXT SIBLINGS
+// console.log(itemList.nextSibling);
+//NEXT ELEMENT SIBLINGS
+// console.log(itemList.nextElementSibling);
+
+//previous siblings
+// console.log(itemList.previousSibling);
+//previous element siblings
+// console.log(itemList.previousElementSibling);
+// itemList.previousElementSibling.style.color='red';
+
+
+//CREATE ELEMENT
+
+//create a div
+// var newDiv=document.createElement('div');
+// //add class
+// newDiv.className='Hello';
+// //add id
+// newDiv.id='hello1';
+// //add attributes
+// newDiv.setAttribute('title','Hello div');
+// //create a text node
+// var newDivText=document.createTextNode('Hello');
+// //add text to div
+// newDiv.appendChild(newDivText);
+
+// var container=document.querySelector('header .container');
+// var h1=document.querySelector('header h1');
+// console.log(newDiv);
+// //increases the font size of "frontpage"
+// newDiv.style.fontSize='30px';
+// container.insertBefore(newDiv,h1);
+
+//adding Hello before the ITEM 1
+var newDiv=document.createElement('li');
+//add class
+newDiv.className='Hello';
+//add id
+newDiv.id='Hello1';
+//add attributes
+newDiv.setAttribute('title','Hello li');
+//create a text node
+var newDivText=document.createTextNode('Hello');
+//add text to div
+newDiv.appendChild(newDivText);
+
+var container=document.getElementById('items');
+newDiv.style.fontSize='15px';
+container.insertBefore(newDiv,container.children[0]);
+
+
