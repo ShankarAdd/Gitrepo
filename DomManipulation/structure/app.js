@@ -173,20 +173,27 @@ var itemList=document.querySelector('#items');
 
 
 
-//detele functionality
+//functionality
 var form=document.getElementById('addForm');
 var item=document.getElementById('items');
+var filter=document.getElementById('filter');
+
 //form submit event
 form.addEventListener('submit',addItem);
 //delete event 
 item.addEventListener('click',removeItem);
+//FILTER EVENT
+filter.addEventListener('keyup',filterItems);
 
-//add item
+
+//add item function
 function addItem(e){
  e.preventDefault();
 
  //get input value
  var newItem=document.getElementById('item').value;
+ var newItem1=document.getElementById('item2').value;
+
 
  //new li to add etxt when it is submitted
  var li=document.createElement('li');
@@ -194,6 +201,8 @@ function addItem(e){
  li.className='list-group-item';
  //add text node with input value
  li.appendChild(document.createTextNode(newItem));
+ li.appendChild(document.createTextNode(' '+newItem1));
+
 
 //create the delete button
 var deletebtn=document.createElement('button');
@@ -207,7 +216,7 @@ li.appendChild(deletebtn);
  item.appendChild(li);
 }
 
-//remove item
+//REMOVE item FUNCTION
 function removeItem(e){
     if(e.target.classList.contains('delete')){
         if(confirm('Are You Sure')){
@@ -216,3 +225,22 @@ function removeItem(e){
         }
     }
 }
+
+//FILTER FUNCTION OF ITEM
+function filterItems(e){
+    //convert all input text to lowerCase
+    var text=e.target.value.toLowerCase();
+    //get li
+    var items=itemList.getElementsByTagName('li');
+    //Mainly it is in Collection and we need to convert them array
+    for(let i=0;i<items.length;i++){
+        const newText=items[i].textContent.toLowerCase();
+        if(newText.includes(text)){
+            items[i].style.display='block';
+        }
+        else{
+            items[i].style.display='none';
+        }
+    }
+}
+
