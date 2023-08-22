@@ -41,12 +41,16 @@ function onSubmit(e){
         };
 
         let serilize=JSON.stringify(myObj);
-       
 
-        localStorage.setItem('easy',serilize);
+        // localStorage.setItem('easy',serilize);
         
-        let obj_deserilize=JSON.parse(localStorage.getItem('easy'));
+        // let obj_deserilize=JSON.parse(localStorage.getItem('myObj'));
 
-        console.log(obj_deserilize);
+        // console.log(obj_deserilize);
+
+        //STORE MULTIPLE USERS
+        for(let i=0;i<localStorage.length;i++){
+            localStorage.setItem(firstEmail.value,serilize);
+        }
     }
 }
