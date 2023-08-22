@@ -35,6 +35,18 @@ function onSubmit(e){
         localStorage.setItem('name',firstName.value);
         
         localStorage.setItem('email',firstEmail.value);
+        let myObj={
+            nameOf : firstName.value,
+            emailOf : firstEmail.value
+        };
+
+        let serilize=JSON.stringify(myObj);
+       
+
+        localStorage.setItem('easy',serilize);
         
+        let obj_deserilize=JSON.parse(localStorage.getItem('easy'));
+
+        console.log(obj_deserilize);
     }
 }
