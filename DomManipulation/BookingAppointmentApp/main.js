@@ -32,9 +32,9 @@ function onSubmit(e){
         setTimeout(() => msg.remove(),2500);
     }
     else{
-        localStorage.setItem('name',firstName.value);
+        // localStorage.setItem('name',firstName.value);
         
-        localStorage.setItem('email',firstEmail.value);
+        // localStorage.setItem('email',firstEmail.value);
         let myObj={
             nameOf : firstName.value,
             emailOf : firstEmail.value
@@ -42,7 +42,7 @@ function onSubmit(e){
 
         let serilize=JSON.stringify(myObj);
 
-        // localStorage.setItem('easy',serilize);
+        localStorage.setItem('firstEmail.value',serilize);
         
         // let obj_deserilize=JSON.parse(localStorage.getItem('myObj'));
 
@@ -52,5 +52,21 @@ function onSubmit(e){
         for(let i=0;i<localStorage.length;i++){
             localStorage.setItem(firstEmail.value,serilize);
         }
+        const li=document.createElement('li');
+        li.appendChild(document.createTextNode(`${firstName.value} : ${firstEmail.value}`));
+        userList.appendChild(li);
+        var del=document.createElement('input');
+        del.type='button';
+        del.value='delete';
+        del.className='btn-danger';
+        del.appendChild(document.createTextNode('delete'));
+        
+        del.onclick= () => {
+            localStorage.removeItem('firstEmail.value');
+            userList.remove(li);
+
+        }
+        li.appendChild(del);
+        userList.appendChild(li);
     }
 }
