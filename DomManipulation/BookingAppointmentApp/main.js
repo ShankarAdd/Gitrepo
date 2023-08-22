@@ -2,20 +2,20 @@ const myform=document.querySelector('#my-form');
 const firstName=document.querySelector('#name');
 const firstEmail=document.querySelector('#email');
 const msg=document.querySelector('.msg');
-const userList=document.querySelector('#users');
+const usser=document.querySelector('#users');
 
-myform.addEventListener('submit', onSubmit);
+//myform.addEventchildElestener('submit', onSubmit);
 
 // function onSubmit(e){
 //     e.preventDefault();
 //     if(firstName.value === ''|| firstEmail.value ===''){
-//         msg.classList.add('error');
+//         msg.classchildElest.add('error');
 //         msg.innerHTML=('Please enter all fields');
 //         setTimeout(() =>msg.remove(),3125);
 //     }else{
-//         const li=document.createElement('li');
-//         li.appendChild(document.createTextNode(`${firstName.value} : ${firstEmail.value}`));
-//         userList.appendChild(li);
+//         const childEle=document.createElement('childEle');
+//         childEle.appendChild(document.createTextNode(`${firstName.value} : ${firstEmail.value}`));
+//         parentEle.appendChild(childEle);
 //         //Clear fields
 //         firstName.value='';
 //         firstEmail.value='';
@@ -24,49 +24,55 @@ myform.addEventListener('submit', onSubmit);
 
 
 //STORING DATA IN THE LOCAL STORAGE 
-function onSubmit(e){
-    e.preventDefault();
-    if(firstName.value===''||firstEmail.value===''){
-        msg.classList.add('error');
-        msg.innerHTML=('Please enter all fields');
-        setTimeout(() => msg.remove(),2500);
-    }
-    else{
-        // localStorage.setItem('name',firstName.value);
+function saveData(event) {
+	event.preventDefault();
+	const userName = event.target.name.value;
+	const mail = event.target.email.value;
+	const userData = {
+		userName,
+		mail
+	};
+	localStorage.setItem(userData.userName, JSON.stringify(userData));
+
+    if (userData.userName === '' || userData.mail === '') {
+		
+		var msg = document.querySelector('.msg');
+		msg.classchildElest.add('error');
+		msg.innerHTML = 'Please enter all fields';
+
+		// Remove error after 3 seconds
+		setTimeout(() => msg.remove(), 3000);
+	} else {
+		const parentEle = document.querySelector('#users');
+        const childEle = document.createElement('childEle');
+        childEle.textContent = userData.userName + " : " + userData.mail ;
+
+        const deleteButton = document.createElement('input');
+        deleteButton.type = 'button';
+        deleteButton.value = 'Delete';
+        deleteButton.className = 'btn-danger';
+
+        //We need to add update button
+        var updateButton=document.createElement('input');
+        updateButton.type='button';
+        updateButton.className='btn-update';
+        updateButton.value='Edit';
         
-        // localStorage.setItem('email',firstEmail.value);
-        let myObj={
-            nameOf : firstName.value,
-            emailOf : firstEmail.value
+
+        deleteButton.onclick = () => {
+            localStorage.removeItem(userData.userName);
+            parentEle.removeChild(childEle);
+        };
+        updateButton.onclick = () =>{
+            localStorage.removeItem(userData.userName);
+            parentEle.removeChild(childEle);
+            document.getElementById('name').value = userData.userName;
+            document.getElementById('email').value = userData.mail;
+
         };
 
-        let serilize=JSON.stringify(myObj);
-
-        localStorage.setItem('firstEmail.value',serilize);
-        
-        // let obj_deserilize=JSON.parse(localStorage.getItem('myObj'));
-
-        // console.log(obj_deserilize);
-
-        //STORE MULTIPLE USERS
-        for(let i=0;i<localStorage.length;i++){
-            localStorage.setItem(firstEmail.value,serilize);
-        }
-        const li=document.createElement('li');
-        li.appendChild(document.createTextNode(`${firstName.value} : ${firstEmail.value}`));
-        userList.appendChild(li);
-        var del=document.createElement('input');
-        del.type='button';
-        del.value='delete';
-        del.className='btn-danger';
-        del.appendChild(document.createTextNode('delete'));
-        
-        del.onclick= () => {
-            localStorage.removeItem('firstEmail.value');
-            userList.remove(li);
-
-        }
-        li.appendChild(del);
-        userList.appendChild(li);
-    }
+        childEle.appendChild(updateButton);
+        childEle.appendChild(deleteButton);
+        parentEle.appendChild(childEle);
+	}
 }
