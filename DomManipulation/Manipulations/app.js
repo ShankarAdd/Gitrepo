@@ -174,73 +174,103 @@ var itemList=document.querySelector('#items');
 
 
 //functionality
-var form=document.getElementById('addForm');
-var item=document.getElementById('items');
-var filter=document.getElementById('filter');
+// var form=document.getElementById('addForm');
+// var item=document.getElementById('items');
+// var filter=document.getElementById('filter');
 
-//form submit event
-form.addEventListener('submit',addItem);
-//delete event 
-item.addEventListener('click',removeItem);
-//FILTER EVENT
-filter.addEventListener('keyup',filterItems);
-
-
-//add item function
-function addItem(e){
- e.preventDefault();
-
- //get input value
- var newItem=document.getElementById('item').value;
- var newItem1=document.getElementById('item2').value;
+// //form submit event
+// form.addEventListener('submit',addItem);
+// //delete event 
+// item.addEventListener('click',removeItem);
+// //FILTER EVENT
+// filter.addEventListener('keyup',filterItems);
 
 
- //new li to add etxt when it is submitted
- var li=document.createElement('li');
- //class to it
- li.className='list-group-item';
- //add text node with input value
- li.appendChild(document.createTextNode(newItem));
- li.appendChild(document.createTextNode(' '+newItem1));
+// //add item function
+// function addItem(e){
+//  e.preventDefault();
+
+//  //get input value
+//  var newItem=document.getElementById('item').value;
+//  var newItem1=document.getElementById('item2').value;
 
 
-//create the delete button
-var deletebtn=document.createElement('button');
-//add classes to delete button
-deletebtn.className='btn btn-danger btn-sm float-right delete';
-//append text node
-deletebtn.appendChild(document.createTextNode('X'));
-//append button to li
-li.appendChild(deletebtn);
-//append li to list
- item.appendChild(li);
+//  //new li to add etxt when it is submitted
+//  var li=document.createElement('li');
+//  //class to it
+//  li.className='list-group-item';
+//  //add text node with input value
+//  li.appendChild(document.createTextNode(newItem));
+//  li.appendChild(document.createTextNode(' '+newItem1));
+
+
+// //create the delete button
+// var deletebtn=document.createElement('button');
+// //add classes to delete button
+// deletebtn.className='btn btn-danger btn-sm float-right delete';
+// //append text node
+// deletebtn.appendChild(document.createTextNode('X'));
+// //append button to li
+// li.appendChild(deletebtn);
+// //append li to list
+//  item.appendChild(li);
+// }
+
+// //REMOVE item FUNCTION
+// function removeItem(e){
+//     if(e.target.classList.contains('delete')){
+//         if(confirm('Are You Sure')){
+//             var li=e.target.parentElement;
+//             itemList.removeChild(li);
+//         }
+//     }
+// }
+
+// //FILTER FUNCTION OF ITEM
+// function filterItems(e){
+//     //convert all input text to lowerCase
+//     var text=e.target.value.toLowerCase();
+//     //get li
+//     var items=itemList.getElementsByTagName('li');
+//     //Mainly it is in Collection and we need to convert them array
+//     for(let i=0;i<items.length;i++){
+//         const newText=items[i].textContent.toLowerCase();
+//         if(newText.includes(text)){
+//             items[i].style.display='block';
+//         }
+//         else{
+//             items[i].style.display='none';
+//         }
+//     }
+// }
+
+const posts=[
+    {title:'post One', body: 'This is post one',createdAt : new Date().getTime()},
+    {title:'post two', body: 'This is post two',createdAt : new Date().getTime()},
+];
+var intervalid;
+function getPost(){
+        clearInterval(intervalid);
+        let output='';
+        intervalid=setTimeout(() =>{
+            for(let i=0;i<posts.length;i++){
+                output += `<li>${posts[i].title} - last updated ${(new Date().getTime() - posts[i].createdAt)/1000} seconds ago</li>`;
+            }
+            document.body.innerHTML=output;
+        },1000);
+}
+function createPost(post,callback){
+    setTimeout(() => {
+        posts.push({...post,createdAt : new Date().getTime()});
+        callback();
+    }, 2000);
 }
 
-//REMOVE item FUNCTION
-function removeItem(e){
-    if(e.target.classList.contains('delete')){
-        if(confirm('Are You Sure')){
-            var li=e.target.parentElement;
-            itemList.removeChild(li);
-        }
-    }
+function create4Post(post,callback){
+    setTimeout(() => {
+        posts.push({...post,createdAt : new Date().getTime()});
+        callback();
+    }, 6000);
 }
-
-//FILTER FUNCTION OF ITEM
-function filterItems(e){
-    //convert all input text to lowerCase
-    var text=e.target.value.toLowerCase();
-    //get li
-    var items=itemList.getElementsByTagName('li');
-    //Mainly it is in Collection and we need to convert them array
-    for(let i=0;i<items.length;i++){
-        const newText=items[i].textContent.toLowerCase();
-        if(newText.includes(text)){
-            items[i].style.display='block';
-        }
-        else{
-            items[i].style.display='none';
-        }
-    }
-}
-
+createPost({title:'post three',body:'This is three'},getPost);
+create4Post({title:'post four',body:'This is four'},getPost);
