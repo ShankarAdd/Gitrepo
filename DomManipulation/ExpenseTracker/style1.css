@@ -1,10 +1,10 @@
 body {
     margin-top: 40px;
-    background-color: bisque; /* This margin just makes the text easier to read. You can remove it if you want since it can mess with your other styles. */
+    background-color: rgba(255, 228, 196, 0.545); /* This margin just makes the text easier to read. You can remove it if you want since it can mess with your other styles. */
   }
   
   body::before {
-    content: "XS";
+    
     color: red;
     font-size: 2rem;
     font-weight: bold;
@@ -14,10 +14,10 @@ body {
   }
   
   /* This box class is purely used for explaining how the bootstrap grid system works. */
-  .box {
+  .btn {
     background-color: lightblue;
     border: 1px solid blue;
-    min-height: 50px;
-    font-size: 2rem;
+    min-height: 20px;
+    font-size: 1rem;
   }
   
