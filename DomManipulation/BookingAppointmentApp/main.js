@@ -32,20 +32,32 @@ function saveData(event) {
 		userName,
 		mail
 	};
-	localStorage.setItem(userData.userName, JSON.stringify(userData));
+	//localStorage.setItem(userData.userName, JSON.stringify(userData));
+    //display(userData)
 
+    axios.post("https://crudcrud.com/api/0a7152902ec046a6b8269dc96d012cfe/appointmentData", userData)
+        .then((response) => display(response.data))
+        .catch((err) =>{
+            console.log(err);
+        })
+
+    event.target.name.value = '';
+    event.target.email.value = '';
+}
+function display(userData){
     if (userData.userName === '' || userData.mail === '') {
 		
 		var msg = document.querySelector('.msg');
-		msg.classchildElest.add('error');
+		msg.classList.add('error');
 		msg.innerHTML = 'Please enter all fields';
 
 		// Remove error after 3 seconds
 		setTimeout(() => msg.remove(), 3000);
 	} else {
 		const parentEle = document.querySelector('#users');
-        const childEle = document.createElement('childEle');
+        const childEle = document.createElement('li');
         childEle.textContent = userData.userName + " : " + userData.mail ;
+        parentEle.appendChild(childEle);
 
         const deleteButton = document.createElement('input');
         deleteButton.type = 'button';
@@ -63,6 +75,8 @@ function saveData(event) {
             localStorage.removeItem(userData.userName);
             parentEle.removeChild(childEle);
         };
+        childEle.appendChild(deleteButton);
+
         updateButton.onclick = () =>{
             localStorage.removeItem(userData.userName);
             parentEle.removeChild(childEle);
@@ -70,9 +84,26 @@ function saveData(event) {
             document.getElementById('email').value = userData.mail;
 
         };
-
         childEle.appendChild(updateButton);
-        childEle.appendChild(deleteButton);
-        parentEle.appendChild(childEle);
 	}
 }
+// window.addEventListener("DOMContentLoaded",() =>{
+//     const localStorageObj=localStorage;
+//     const localstoragekeys= Object.keys(localStorageObj)
+
+//     for(var i=0;i<localstoragekeys.length;i++){
+//         const key = localstoragekeys[i]
+//         const userDetailsString = localStorageObj[key];
+//         const userDetailsObj = JSON.parse(userDetailsString);
+//         display(userDetailsObj);
+//     }
+// })
+window.addEventListener("DOMContentLoaded", () =>{
+    axios.get("https://crudcrud.com/api/0a7152902ec046a6b8269dc96d012cfe/appointmentData")
+    .then((response) =>{
+        for(let i=0;i<response.data.length;i++){
+            display(response.data[i]);
+        }
+    })
+    .catch((err) => console.log(err));
+})
