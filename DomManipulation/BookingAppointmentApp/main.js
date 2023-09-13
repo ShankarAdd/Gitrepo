@@ -53,7 +53,8 @@ function display(userData){
 
 		// Remove error after 3 seconds
 		setTimeout(() => msg.remove(), 3000);
-	} else {
+	} 
+    else {
 		const parentEle = document.querySelector('#users');
         const childEle = document.createElement('li');
         childEle.textContent = userData.userName + " : " + userData.mail ;
