@@ -1,8 +1,8 @@
-const myform=document.querySelector('#my-form');
-const firstName=document.querySelector('#name');
-const firstEmail=document.querySelector('#email');
-const msg=document.querySelector('.msg');
-const usser=document.querySelector('#users');
+const myform = document.querySelector('#my-form');
+const firstName = document.querySelector('#name');
+const firstEmail = document.querySelector('#email');
+const msg = document.querySelector('.msg');
+const usser = document.querySelector('#users');
 
 //myform.addEventchildElestener('submit', onSubmit);
 
@@ -25,39 +25,39 @@ const usser=document.querySelector('#users');
 
 //STORING DATA IN THE LOCAL STORAGE 
 function saveData(event) {
-	event.preventDefault();
-	const userName = event.target.name.value;
-	const mail = event.target.email.value;
-	const userData = {
-		userName,
-		mail
-	};
-	//localStorage.setItem(userData.userName, JSON.stringify(userData));
+    event.preventDefault();
+    const userName = event.target.name.value;
+    const mail = event.target.email.value;
+    const userData = {
+        userName,
+        mail
+    };
+    //localStorage.setItem(userData.userName, JSON.stringify(userData));
     //display(userData)
 
     axios.post("https://crudcrud.com/api/e60cf065ef4e4de88c6f565ffff3360e/appointmentData", userData)
         .then((response) => display(response.data))
-        .catch((err) =>{
+        .catch((err) => {
             console.log(err);
         })
 
     event.target.name.value = '';
     event.target.email.value = '';
 }
-function display(userData){
+function display(userData) {
     if (userData.userName === '' || userData.mail === '') {
-		
-		var msg = document.querySelector('.msg');
-		msg.classList.add('error');
-		msg.innerHTML = 'Please enter all fields';
 
-		// Remove error after 3 seconds
-		setTimeout(() => msg.remove(), 3000);
-	} 
+        var msg = document.querySelector('.msg');
+        msg.classList.add('error');
+        msg.innerHTML = 'Please enter all fields';
+
+        // Remove error after 3 seconds
+        setTimeout(() => msg.remove(), 3000);
+    }
     else {
-		const parentEle = document.querySelector('#users');
+        const parentEle = document.querySelector('#users');
         const childEle = document.createElement('li');
-        childEle.textContent = userData.userName + " : " + userData.mail ;
+        childEle.textContent = userData.userName + " : " + userData.mail;
         parentEle.appendChild(childEle);
 
         const deleteButton = document.createElement('input');
@@ -66,19 +66,29 @@ function display(userData){
         deleteButton.className = 'btn-danger';
 
         //We need to add update button
-        var updateButton=document.createElement('input');
-        updateButton.type='button';
-        updateButton.className='btn-update';
-        updateButton.value='Edit';
-        
+        var updateButton = document.createElement('input');
+        updateButton.type = 'button';
+        updateButton.className = 'btn-update';
+        updateButton.value = 'Edit';
+
 
         deleteButton.onclick = () => {
-            localStorage.removeItem(userData.userName);
+
+            //This is to delete data from local storage
+            //localStorage.removeItem(userData.userName);
+
+            //the main part to delete the user details from API
+            const id = userData._id;
+
+            axios.delete('https://crudcrud.com/api/e60cf065ef4e4de88c6f565ffff3360e/appointmentData/' + id)
+                .catch((err) => console.log(err));
+
             parentEle.removeChild(childEle);
         };
+        
         childEle.appendChild(deleteButton);
 
-        updateButton.onclick = () =>{
+        updateButton.onclick = () => {
             localStorage.removeItem(userData.userName);
             parentEle.removeChild(childEle);
             document.getElementById('name').value = userData.userName;
@@ -86,7 +96,7 @@ function display(userData){
 
         };
         childEle.appendChild(updateButton);
-	}
+    }
 }
 //Showing the user's details from the local storage
 // window.addEventListener("DOMContentLoaded",() =>{
@@ -101,12 +111,12 @@ function display(userData){
 //     }
 // })
 //getting the user's details when the whole html loads using GET request
-window.addEventListener("DOMContentLoaded", () =>{
+window.addEventListener("DOMContentLoaded", () => {
     axios.get("https://crudcrud.com/api/e60cf065ef4e4de88c6f565ffff3360e/appointmentData")
-    .then((response) =>{
-        for(let i=0;i<response.data.length;i++){
-            display(response.data[i]);
-        }
-    })
-    .catch((err) => console.log(err));
+        .then((response) => {
+            for (let i = 0; i < response.data.length; i++) {
+                display(response.data[i]);
+            }
+        })
+        .catch((err) => console.log(err));
 })
