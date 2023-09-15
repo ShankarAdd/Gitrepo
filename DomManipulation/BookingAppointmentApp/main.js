@@ -35,7 +35,7 @@ function saveData(event) {
 	//localStorage.setItem(userData.userName, JSON.stringify(userData));
     //display(userData)
 
-    axios.post("https://crudcrud.com/api/0a7152902ec046a6b8269dc96d012cfe/appointmentData", userData)
+    axios.post("https://crudcrud.com/api/e60cf065ef4e4de88c6f565ffff3360e/appointmentData", userData)
         .then((response) => display(response.data))
         .catch((err) =>{
             console.log(err);
@@ -88,6 +88,7 @@ function display(userData){
         childEle.appendChild(updateButton);
 	}
 }
+//Showing the user's details from the local storage
 // window.addEventListener("DOMContentLoaded",() =>{
 //     const localStorageObj=localStorage;
 //     const localstoragekeys= Object.keys(localStorageObj)
@@ -99,8 +100,9 @@ function display(userData){
 //         display(userDetailsObj);
 //     }
 // })
+//getting the user's details when the whole html loads using GET request
 window.addEventListener("DOMContentLoaded", () =>{
-    axios.get("https://crudcrud.com/api/0a7152902ec046a6b8269dc96d012cfe/appointmentData")
+    axios.get("https://crudcrud.com/api/e60cf065ef4e4de88c6f565ffff3360e/appointmentData")
     .then((response) =>{
         for(let i=0;i<response.data.length;i++){
             display(response.data[i]);
