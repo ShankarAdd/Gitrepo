@@ -35,7 +35,7 @@ function saveData(event) {
     //localStorage.setItem(userData.userName, JSON.stringify(userData));
     //display(userData)
 
-    axios.post("https://crudcrud.com/api/e60cf065ef4e4de88c6f565ffff3360e/appointmentData", userData)
+    axios.post("https://crudcrud.com/api/22254b64f3294a1b9eb246b51ca95521/appointmentData", userData)
         .then((response) => display(response.data))
         .catch((err) => {
             console.log(err);
@@ -70,7 +70,7 @@ function display(userData) {
         updateButton.type = 'button';
         updateButton.className = 'btn-update';
         updateButton.value = 'Edit';
-
+        
 
         deleteButton.onclick = () => {
 
@@ -85,15 +85,29 @@ function display(userData) {
 
             parentEle.removeChild(childEle);
         };
-        
+
         childEle.appendChild(deleteButton);
 
         updateButton.onclick = () => {
-            localStorage.removeItem(userData.userName);
-            parentEle.removeChild(childEle);
-            document.getElementById('name').value = userData.userName;
-            document.getElementById('email').value = userData.mail;
-
+            //localStorage.removeItem(userData.userName);
+            const id1 = userData._id;
+            if (id1) {
+                axios.put("https://crudcrud.com/api/22254b64f3294a1b9eb246b51ca95521/appointmentData/" + id1, userData)
+                    .then((response) => {
+                        userData._id = id1;
+                        display(userData)
+                    })
+                    .catch((err) => console.log(err))
+                userData._id = '';
+                parentEle.removeChild(childEle);
+                document.getElementById('name').value = userData.userName;
+                document.getElementById('email').value = userData.mail;
+            }
+            else {
+                axios.post("https://crudcrud.com/api/22254b64f3294a1b9eb246b51ca95521/appointmentData", userData)
+                    .then((response) => display(response.data))
+                    .catch((err) => console.log(err))
+            }
         };
         childEle.appendChild(updateButton);
     }
@@ -112,7 +126,7 @@ function display(userData) {
 // })
 //getting the user's details when the whole html loads using GET request
 window.addEventListener("DOMContentLoaded", () => {
-    axios.get("https://crudcrud.com/api/e60cf065ef4e4de88c6f565ffff3360e/appointmentData")
+    axios.get("https://crudcrud.com/api/22254b64f3294a1b9eb246b51ca95521/appointmentData")
         .then((response) => {
             for (let i = 0; i < response.data.length; i++) {
                 display(response.data[i]);
