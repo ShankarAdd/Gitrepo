@@ -27,15 +27,18 @@ const usser = document.querySelector('#users');
 function saveData(event) {
     event.preventDefault();
     const userName = event.target.name.value;
-    const mail = event.target.email.value;
+    const userEmail = event.target.email.value;
+    console.log(userName)
+    console.log(userEmail);
     const userData = {
         userName,
-        mail
+        userEmail
     };
+    console.log(userData.userEmail);
     //localStorage.setItem(userData.userName, JSON.stringify(userData));
     //display(userData)
 
-    axios.post("https://crudcrud.com/api/22254b64f3294a1b9eb246b51ca95521/appointmentData", userData)
+    axios.post("http://localhost:3000/user/add-user", userData)
         .then((response) => display(response.data))
         .catch((err) => {
             console.log(err);
@@ -45,7 +48,7 @@ function saveData(event) {
     event.target.email.value = '';
 }
 function display(userData) {
-    if (userData.userName === '' || userData.mail === '') {
+    if (userData.userName === '' || userData.userEmail === '') {
 
         var msg = document.querySelector('.msg');
         msg.classList.add('error');
@@ -57,7 +60,7 @@ function display(userData) {
     else {
         const parentEle = document.querySelector('#users');
         const childEle = document.createElement('li');
-        childEle.textContent = userData.userName + " : " + userData.mail;
+        childEle.textContent = userData.userName + " : " + userData.userEmail;
         parentEle.appendChild(childEle);
 
         const deleteButton = document.createElement('input');
@@ -78,9 +81,8 @@ function display(userData) {
             //localStorage.removeItem(userData.userName);
 
             //the main part to delete the user details from API
-            const id = userData._id;
-
-            axios.delete('https://crudcrud.com/api/e60cf065ef4e4de88c6f565ffff3360e/appointmentData/' + id)
+            const id = userData.id;
+            axios.delete('http://localhost:3000/user/delete-user/' + id)
                 .catch((err) => console.log(err));
 
             parentEle.removeChild(childEle);
@@ -101,10 +103,10 @@ function display(userData) {
                 userData._id = '';
                 parentEle.removeChild(childEle);
                 document.getElementById('name').value = userData.userName;
-                document.getElementById('email').value = userData.mail;
+                document.getElementById('email').value = userData.userEmail;
             }
             else {
-                axios.post("https://crudcrud.com/api/22254b64f3294a1b9eb246b51ca95521/appointmentData", userData)
+                axios.post("http://localhost:3000/user/add-user", userData)
                     .then((response) => display(response.data))
                     .catch((err) => console.log(err))
             }
@@ -126,7 +128,7 @@ function display(userData) {
 // })
 //getting the user's details when the whole html loads using GET request
 window.addEventListener("DOMContentLoaded", () => {
-    axios.get("https://crudcrud.com/api/22254b64f3294a1b9eb246b51ca95521/appointmentData")
+    axios.get("http://localhost:3000/user/get-user")
         .then((response) => {
             for (let i = 0; i < response.data.length; i++) {
                 display(response.data[i]);
